@@ -19,7 +19,7 @@ class ItemsController < ApplicationController
 
     @todo.items.create!(tmp_params)
 
-    json_response(tmp_params, :created)
+    json_response(@todo, :created)
   end
 
   # PUT /todos/:todo_id/items/:id
