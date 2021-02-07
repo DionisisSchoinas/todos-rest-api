@@ -11,8 +11,12 @@ class Message
     'Unauthorized request'
   end
 
+  def self.expired
+    'Session has expired, please login again'
+  end
+
   def self.account_created
-    'Account created successfully'
+    'Account created successfully, and logged in automatically'
   end
 
   def self.account_not_created

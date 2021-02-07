@@ -9,9 +9,15 @@ RSpec.describe ApplicationController, type: :controller do
     context "when session has user_id" do
 
       before { session[:user_id] = user.id }
+      before { session[:expiration_time] = Time.now + 100 }
 
-      it "sets the current user" do
+      it "and not expired, sets the current user" do
         expect(subject.instance_eval { authorize_request }).to eq(user)
+      end
+
+      it "and expired" do
+        session[:expiration_time] = Time.now - 10
+        expect(subject.instance_eval { current_user }).to be_nil
       end
     end
 
