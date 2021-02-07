@@ -1,11 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Items API' do
+  let(:user) { create(:user) }
   # Initialize the test data
-  let!(:todo) { create(:todo) }
+  let!(:todo) { create(:todo, created_by: user.id) }
   let!(:items) { create_list(:item, 20, todo_id: todo.id) }
   let(:todo_id) { todo.id }
   let(:id) { items.first.id }
+
+  before { post '/auth/login', params: { email: user.email, password: user.password } }
 
   # Test suite for GET /todos/:todo_id/items
   describe 'GET /todos/:todo_id/items' do

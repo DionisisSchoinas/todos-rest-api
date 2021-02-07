@@ -40,4 +40,15 @@ RSpec.describe 'Authentication', type: :request do
       end
     end
   end
+
+  describe 'GET /auth/logout' do
+    context 'when user logs out' do
+      before { get '/auth/logout' }
+
+      it 'returns a session without user_id' do
+        expect(session[:user_id]).to be_nil
+      end
+    end
+  end
+
 end
