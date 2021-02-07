@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Todos API', type: :request do
+  let(:user) { create(:user) }
   # initialize test data
-  let!(:todos) { create_list(:todo, 10) }
+  let!(:todos) { create_list(:todo, 10, created_by: user.id) }
   let(:todo_id) { todos.first.id }
+
+  before { post '/auth/login', params: { email: user.email, password: user.password } }
 
   # Test suite for GET /todos
   describe 'GET /todos' do
@@ -52,7 +55,7 @@ RSpec.describe 'Todos API', type: :request do
   # Test suite for POST /todos
   describe 'POST /todos' do
     # valid payload
-    let(:valid_attributes) { { title: 'Learn Elm', created_by: '1' } }
+    let(:valid_attributes) { { title: 'Learn Elm', created_by: user.id } }
 
     context 'when the request is valid' do
       before { post '/todos', params: valid_attributes }
@@ -67,15 +70,14 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/todos', params: { title: 'Foobar' } }
+      before { post '/todos', params: {} }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns a validation failure message' do
-        expect(response.body)
-          .to match(/Validation failed: Created by can't be blank/)
+        expect(json['message']).to match(/Validation failed: Title can't be blank/)
       end
     end
   end
