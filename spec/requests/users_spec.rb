@@ -21,7 +21,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns success message' do
-        expect(json['message']).to match(/Account created successfully/)
+        expect(json['message']).to match(/Account created successfully, and logged in automatically/)
       end
 
       it 'returns a session with user_id' do

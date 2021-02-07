@@ -5,7 +5,10 @@ class UsersController < ApplicationController
   def create
     if user_params[:password_confirmation]
       user = User.create!(user_params)
+
       session[:user_id] = user.id
+      session[:expiration_time] = Time.now + 6*60*60 # 6 hours until expiration
+      
       response = { message: Message.account_created }
       json_response(response, :created)
     else
