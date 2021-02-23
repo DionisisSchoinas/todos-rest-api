@@ -19,6 +19,7 @@ This is a basic RestApi that requires the user to be logged in to access his lis
 | PUT /todos/:id | Update a todo |
 | DELETE /todos/:id | Delete a todo and its items |
 | GET /todos/:id/items | List all todo's items |
+| POST /todos/:id/items | Create a new todo item |
 | GET /todos/:id/items/:id | Get a todo item |
 | PUT /todos/:id/items/:id | Update a todo item |
 | DELETE /todos/:id/items/:id | Delete a todo item |
